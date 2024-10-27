@@ -22,6 +22,12 @@
             int row = kb.nextInt();   
             int col = kb.nextInt();
 
+            do {
+                System.out.print("Enter row and column (e.g., 0 1): ");
+                row = kb.nextInt();   
+                col = kb.nextInt();
+            }while (row>=10 || col>=10 || row<0 || col<0 );
+            
             updataarray(row, col);
             printtable();
         }
