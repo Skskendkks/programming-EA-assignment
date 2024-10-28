@@ -18,27 +18,30 @@
         public static void main(String[] args) {
             Scanner kb = new Scanner(System.in);
             printtable();
-            System.out.print("Enter row and column (e.g., 0 1): ");
-            int row = kb.nextInt();   
-            int col = kb.nextInt();
-            //check the input value is it vaild. 
-            while (row < 0 || row > 9 || col < 0 || col > 9) {
-                System.out.println("out of range! Input again.");
+            while (checkwin() == false) {
                 System.out.print("Enter row and column (e.g., 0 1): ");
-                row = kb.nextInt(); 
-                col = kb.nextInt();
+                int row = kb.nextInt();   
+                int col = kb.nextInt();
+                //check the input value is it vaild. 
+                while (row < 0 || row > 9 || col < 0 || col > 9) {
+                    System.out.println("out of range! Input again.");
+                    System.out.print("Enter row and column (e.g., 0 1): ");
+                    row = kb.nextInt(); 
+                    col = kb.nextInt();
+                }
+                //Check the move is it vaild. 
+                while (gametable[row][col] == 1 || gametable[row][col] == 2) {
+                    System.out.println("invaild move. Try again.");
+                    System.out.print("Enter row and column (e.g., 0 1): ");
+                    row = kb.nextInt(); 
+                    col = kb.nextInt();
+                }
+
+
+                updataarray(row, col);
+                printtable();
             }
-            //Check the move is it vaild. 
-            while (gametable[row][col] == 1 || gametable[row][col] == 2) {
-                System.out.println("invaild move. Try again.");
-                System.out.print("Enter row and column (e.g., 0 1): ");
-                row = kb.nextInt(); 
-                col = kb.nextInt();
-            }
-                
-            
-            updataarray(row, col);
-            printtable();
+           
         }
         //update the game table 
         public static void updataarray(int row, int col) {
@@ -50,6 +53,11 @@
             }
         }
         //print the game table
+
+        public static boolean checkwin() {
+            return false;
+        } 
+
         public static void printtable() {
             for (int i = 0; i < 10; i++) {
                 System.out.print(i + " | ");
