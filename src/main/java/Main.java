@@ -1,27 +1,18 @@
     import java.util.Scanner;
 
     public class Main {
-        static int[][] gametable = {
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
-        };
+        static int [][] gametable = new int [10][10];
         static int turn = 1;
+        static int row;
+        static int col;
 
         public static void main(String[] args) {
             Scanner kb = new Scanner(System.in);
             printtable();
             while (checkwin() == false) {
                 System.out.print("Enter row and column (e.g., 0 1): ");
-                int row = kb.nextInt();   
-                int col = kb.nextInt();
+                row = kb.nextInt();   
+                col = kb.nextInt();
                 //check the input value is it vaild. 
                 while (row < 0 || row > 9 || col < 0 || col > 9) {
                     System.out.println("out of range! Input again.");
@@ -55,8 +46,72 @@
         //print the game table
 
         public static boolean checkwin() {
+            boolean checkrow = false;
+            boolean checkcol = false;
+            boolean checkslash = false;
+            boolean checkbackslash = false;
+
+            for (int i = 0; i < 4; i++) {
+                if (col + i + 1 < gametable[row].length && gametable[row][col + i] == gametable[row][col + i + 1]) {
+                    checkrow = true;
+                } else {
+                    break;
+                }
+
+                if (col - i - 1 >= 0 && gametable[row][col - i] == gametable[row][col - i - 1]) {
+                    checkrow = true;
+                } else {
+                    break;
+                }
+
+                if (checkrow) {
+                    return true;
+                }
+
+                if (row + i + 1 < gametable.length && gametable[row + i][col] == gametable[row + i + 1][col]) {
+                    checkcol = true;
+                } else {
+                    break;
+                }
+
+                if (row - i - 1 >= 0 && gametable[row - i][col] == gametable[row - i - 1][col]) {
+                    checkcol = true;
+                } else {
+                    break;
+                }
+
+                if (checkcol) {
+                    return true;
+                }
+                if (row + i + 1 < gametable.length && col + 1 + i < gametable[row].length && gametable[row + i][col + i] == gametable[row + i + 1][col + i + 1]){
+                    checkbackslash = true;
+                } else {
+                    break;
+                }
+                if (row-i-1 >= 0 && col-i-1 <=0 && gametable[row-i][col-i] == gametable[row-i-1][col-i-1]) {
+                    checkbackslash = true; 
+                }else {
+                    break;
+                }
+                if (row + i + 1 < gametable.length && col -i-1 <=0 && gametable[row+i][col-i] == gametable[row+i+1][col-i-1]){
+                    checkslash = true; 
+                } else {
+                    break; 
+                }
+                if (row-i-1 <=0 && col+i+1 <gametable[row].length && gametable[row-i][col+i] == gametable[row-i-1][col+i+1]){
+                    checkslash = true;
+                }else {
+                    break;
+                }
+            }
+
             return false;
-        } 
+        }
+            
+            
+        }
+            
+        
 
         public static void printtable() {
             for (int i = 0; i < 10; i++) {
