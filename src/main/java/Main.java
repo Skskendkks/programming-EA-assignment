@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
-    static int [][] gametable = new int [10][10];
+    static int[][] gametable = new int[10][10];
     static int turn = 1;
     static int row;
     static int col;
@@ -9,119 +9,104 @@ public class Main {
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         printtable();
-        while (checkwin() == false) {
+        while (true) {
             System.out.print("Enter row and column (e.g., 0 1): ");
-            row = kb.nextInt();   
+            row = kb.nextInt();
             col = kb.nextInt();
-            //check the input value is it vaild. 
+
+            // Check the input value is valid
             while (row < 0 || row > 9 || col < 0 || col > 9) {
-                System.out.println("out of range! Input again.");
+                System.out.println("Out of range! Input again.");
                 System.out.print("Enter row and column (e.g., 0 1): ");
-                row = kb.nextInt(); 
+                row = kb.nextInt();
                 col = kb.nextInt();
             }
-            //Check the move is it vaild. 
+
+            // Check the move is valid
             while (gametable[row][col] == 1 || gametable[row][col] == 2) {
-                System.out.println("invaild move. Try again.");
+                System.out.println("Invalid move. Try again.");
                 System.out.print("Enter row and column (e.g., 0 1): ");
-                row = kb.nextInt(); 
+                row = kb.nextInt();
                 col = kb.nextInt();
             }
 
-
-            updataarray(row, col);
-
-            checkwin();
+            // Update the game table
+            updatearray(row, col);
+            // Check if current player has won
+            if (checkwin(row, col)) {
+                System.out.println("Player " + gametable[row][col] + " wins!");
+                break;
+            }
             printtable();
-            if (checkwin() == true) {
-                System.out.println("Player "+ turn + " wins!");
-                break;
-            }
-        }
 
+            
+            
+        }
+        kb.close();
     }
-    //update the game table 
-    public static void updataarray(int row, int col) {
+
+    public static void updatearray(int row, int col) {
         gametable[row][col] = turn;
-        if (turn == 1) {
-            turn = 2;
-        } else {
-            turn = 1;
-        }
-    }
-    //print the game table
-
-    public static boolean checkwin() {
-        boolean checkrow = false;
-        boolean checkcol = false;
-        boolean checkslash = false;
-        boolean checkbackslash = false;
-
-        for (int i = 0; i < 4; i++) {
-            if (col + i + 1 < gametable[row].length && gametable[row][col + i] == gametable[row][col + i + 1] && turn == gametable[row][col]) {
-                checkrow = true;
-            } else {
-                break;
-            }
-
-            if (col - i - 1 >= 0 && gametable[row][col - i] == gametable[row][col - i - 1] && turn == gametable[row][col]) {
-                checkrow = true;
-            } else {
-                break;
-            }
-
-            if (checkrow) {
-                return true;
-            }
-
-            if (row + i + 1 < gametable.length && gametable[row + i][col] == gametable[row + i + 1][col] && turn == gametable[row][col]) {
-                checkcol = true;
-            } else {
-                break;
-            }
-
-            if (row - i - 1 >= 0 && gametable[row - i][col] == gametable[row - i - 1][col] && turn == gametable[row][col]) {
-                checkcol = true;
-            } else {
-                break;
-            }
-
-            if (checkcol) {
-                return true;
-            }
-            if (row + i + 1 < gametable.length && col + 1 + i < gametable[row].length && gametable[row + i][col + i] == gametable[row + i + 1][col + i + 1] && turn == gametable[row][col]){
-                checkbackslash = true;
-            } else {
-                break;
-            }
-            if (row-i-1 >= 0 && col-i-1 <=0 && gametable[row-i][col-i] == gametable[row-i-1][col-i-1] && turn == gametable[row][col]) {
-                checkbackslash = true; 
-            }else {
-                break;
-            }
-            if (row + i + 1 < gametable.length && col -i-1 <=0 && gametable[row+i][col-i] == gametable[row+i+1][col-i-1] && turn == gametable[row][col]){
-                checkslash = true; 
-            } else {
-                break; 
-            }
-            if (row-i-1 <=0 && col+i+1 < gametable[row].length && gametable[row-i][col+i] == gametable[row-i-1][col+i+1] && turn == gametable[row][col]){
-                checkslash = true;
-            }else {
-                break;
-            }
-        }
-        if (checkcol || checkrow || checkbackslash || checkslash == true){
-            return true; 
-        } else {
-            return false;
-        }
-
+        turn = (turn == 1) ? 2 : 1;
     }
 
+    public static boolean checkwin(int row, int col) {
+        return checkHorizontal(row, col) || checkVertical(row, col) || checkDiagonal(row, col);
+    }
 
+    public static boolean checkHorizontal(int row, int col) {
+        int count = 0;
+        for (int i = 0; i < 10; i++) {
+            if (gametable[row][i] == gametable[row][col]) {
+                count++;
+                if (count == 4) return true;
+            } else {
+                count = 0;
+            }
+        }
+        return false;
+    }
 
+    public static boolean checkVertical(int row, int col) {
+        int count = 0;
+        for (int i = 0; i < 10; i++) {
+            if (gametable[i][col] == gametable[row][col]) {
+                count++;
+                if (count == 4) return true;
+            } else {
+                count = 0;
+            }
+        }
+        return false;
+    }
 
+    public static boolean checkDiagonal(int row, int col) {
+        int count = 0;
+        // Check \ diagonal
+        for (int i = -3; i <= 3; i++) {
+            int r = row + i, c = col + i;
+            if (r >= 0 && r < 10 && c >= 0 && c < 10 && gametable[r][c] == gametable[row][col]) {
+                count++;
+                if (count == 4) return true;
+            } else {
+                count = 0;
+            }
+        }
 
+        count = 0;
+        // Check / diagonal
+        for (int i = -3; i <= 3; i++) {
+            int r = row + i, c = col - i;
+            if (r >= 0 && r < 10 && c >= 0 && c < 10 && gametable[r][c] == gametable[row][col]) {
+                count++;
+                if (count == 4) return true;
+            } else {
+                count = 0;
+            }
+        }
+
+        return false;
+    }
 
     public static void printtable() {
         for (int i = 0; i < 10; i++) {
@@ -133,9 +118,6 @@ public class Main {
         }
         System.out.println("  +--------------------");
         System.out.println("    0 1 2 3 4 5 6 7 8 9 ");
-        System.out.println("Player "+ turn +"'s turn.");
-
-
-
+        System.out.println("Player " + turn + "'s turn.");
     }
 }
