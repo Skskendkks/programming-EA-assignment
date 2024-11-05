@@ -1,10 +1,10 @@
 import java.util.Scanner;
 
 public class Main {
-    static int[][] gametable = new int[10][10];
-    static int turn = 1;
-    static int row;
-    static int col;
+    static int[][] gametable = new int[10][10];//create the game board data
+    static int turn = 1;//set the user turn 
+    static int row;//create the varible that user input the row
+    static int col;//create the varible that user input the column
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
@@ -13,8 +13,14 @@ public class Main {
             System.out.print("Enter row and column (e.g., 0 1): ");
             row = kb.nextInt();
             col = kb.nextInt();
+            if (row<0 || row>9 && col<0 && col>9) {
+                row = kb.nextInt();
+                col = kb.nextInt();
+             
+            }
+            
 
-            // Check the input value is valid
+            // Check the input value is valid 
             while (row < 0 || row > 9 || col < 0 || col > 9) {
                 System.out.println("Out of range! Input again.");
                 System.out.print("Enter row and column (e.g., 0 1): ");
@@ -32,7 +38,7 @@ public class Main {
 
             // Update the game table
             updatearray(row, col);
-            // Check if current player has won
+            // Check if current player has won. 
             if (checkwin(row, col)) {
                 System.out.println("Player " + gametable[row][col] + " wins!");
                 break;
@@ -44,19 +50,20 @@ public class Main {
         }
         kb.close();
     }
-
+    //update the array and change the turn. 
     public static void updatearray(int row, int col) {
         gametable[row][col] = turn;
         turn = (turn == 1) ? 2 : 1;
     }
-
+    //check the player has won in any direction. 
     public static boolean checkwin(int row, int col) {
-        return checkHorizontal(row, col) || checkVertical(row, col) || checkDiagonal(row, col);
+        return checkrow(row, col) || checkcol(row, col) || checkslash(row, col);
     }
-
-    public static boolean checkHorizontal(int row, int col) {
-        int count = 0;
+    //check the row hava the same value. 
+    public static boolean checkrow(int row, int col) {
+        int count = 0;//set the count if the count == 4 that mean hava the 4 same value. 
         for (int i = 0; i < 10; i++) {
+            //check the col and the i it is the same value. 
             if (gametable[row][i] == gametable[row][col]) {
                 count++;
                 if (count == 4) return true;
@@ -67,7 +74,7 @@ public class Main {
         return false;
     }
 
-    public static boolean checkVertical(int row, int col) {
+    public static boolean checkcol(int row, int col) {
         int count = 0;
         for (int i = 0; i < 10; i++) {
             if (gametable[i][col] == gametable[row][col]) {
@@ -80,9 +87,9 @@ public class Main {
         return false;
     }
 
-    public static boolean checkDiagonal(int row, int col) {
+    public static boolean checkslash(int row, int col) {
         int count = 0;
-        // Check \ diagonal
+        
         for (int i = -3; i <= 3; i++) {
             int r = row + i, c = col + i;
             if (r >= 0 && r < 10 && c >= 0 && c < 10 && gametable[r][c] == gametable[row][col]) {
@@ -94,7 +101,7 @@ public class Main {
         }
 
         count = 0;
-        // Check / diagonal
+        
         for (int i = -3; i <= 3; i++) {
             int r = row + i, c = col - i;
             if (r >= 0 && r < 10 && c >= 0 && c < 10 && gametable[r][c] == gametable[row][col]) {
@@ -107,7 +114,7 @@ public class Main {
 
         return false;
     }
-
+    //print the game table and the player turn.
     public static void printtable() {
         for (int i = 0; i < 10; i++) {
             System.out.print(i + " | ");
