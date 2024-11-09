@@ -3,19 +3,20 @@ import java.util.Scanner;
 public class Main {
     static int[][] gametable = new int[10][10];//create the game board data
     static int turn = 1;//set the user turn 
-    static int row;//create the varible that user input the row
-    static int col;//create the varible that user input the column
+    static double row;//create the varible that user input the row
+    static double col;//create the varible that user input the column
+    static int [] array = {0,1,2,3,4,5,6,7,8,9}; 
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         printtable();
         while (true) {
             System.out.print("Enter row and column (e.g., 0 1): ");
-            row = kb.nextInt();
-            col = kb.nextInt();
+            row = kb.nextDouble();
+            col = kb.nextDouble();
             if (row<0 || row>9 && col<0 && col>9) {
-                row = kb.nextInt();
-                col = kb.nextInt();
+                row = kb.nextDouble();
+                col = kb.nextDouble();
              
             }
             
@@ -24,23 +25,30 @@ public class Main {
             while (row < 0 || row > 9 || col < 0 || col > 9) {
                 System.out.println("Out of range! Input again.");
                 System.out.print("Enter row and column (e.g., 0 1): ");
-                row = kb.nextInt();
-                col = kb.nextInt();
+                row = kb.nextDouble();
+                col = kb.nextDouble();
+            }
+            
+            while (row % 1 != 0 || col % 1 != 0){
+                System.out.println("Can not input float! Input again.");
+                System.out.print("Enter row and column (e.g., 0 1): ");
+                row = kb.nextDouble();
+                col = kb.nextDouble();
             }
 
             // Check the move is valid
-            while (gametable[row][col] == 1 || gametable[row][col] == 2) {
+            while (gametable[(int)row][(int)col] == 1 || gametable[(int)row][(int)col] == 2) {
                 System.out.println("Invalid move. Try again.");
                 System.out.print("Enter row and column (e.g., 0 1): ");
-                row = kb.nextInt();
-                col = kb.nextInt();
+                row = kb.nextDouble();
+                col = kb.nextDouble();
             }
 
             // Update the game table
             updatearray(row, col);
             // Check if current player has won. 
             if (checkwin(row, col)) {
-                System.out.println("Player " + gametable[row][col] + " wins!");
+                System.out.println("Player " + gametable[(int)row][(int)col] + " wins!");
                 break;
             }
             printtable();
@@ -51,20 +59,20 @@ public class Main {
         kb.close();
     }
     //update the array and change the turn. 
-    public static void updatearray(int row, int col) {
-        gametable[row][col] = turn;
+    public static void updatearray(double row, double col) {
+        gametable[(int)row][(int)col] = turn;
         turn = (turn == 1) ? 2 : 1;
     }
     //check the player has won in any direction. 
-    public static boolean checkwin(int row, int col) {
+    public static boolean checkwin(double row, double col) {
         return checkrow(row, col) || checkcol(row, col) || checkslash(row, col);
     }
     //check the row hava the same value. 
-    public static boolean checkrow(int row, int col) {
+    public static boolean checkrow(double row, double col) {
         int count = 0;//set the count if the count == 4 that mean hava the 4 same value. 
         for (int i = 0; i < 10; i++) {
             //check the col and the i it is the same value. 
-            if (gametable[row][i] == gametable[row][col]) {
+            if (gametable[(int)row][i] == gametable[(int)row][(int)col]) {
                 count++;
                 if (count == 4) return true;
             } else {
@@ -74,10 +82,10 @@ public class Main {
         return false;
     }
 
-    public static boolean checkcol(int row, int col) {
+    public static boolean checkcol(double row, double col) {
         int count = 0;
         for (int i = 0; i < 10; i++) {
-            if (gametable[i][col] == gametable[row][col]) {
+            if (gametable[i][(int)col] == gametable[(int)row][(int)col]) {
                 count++;
                 if (count == 4) return true;
             } else {
@@ -87,12 +95,12 @@ public class Main {
         return false;
     }
 
-    public static boolean checkslash(int row, int col) {
+    public static boolean checkslash(double row, double col) {
         int count = 0;
         
         for (int i = -3; i <= 3; i++) {
-            int r = row + i, c = col + i;
-            if (r >= 0 && r < 10 && c >= 0 && c < 10 && gametable[r][c] == gametable[row][col]) {
+            int r = (int)row + i, c = (int) col + i;
+            if (r >= 0 && r < 10 && c >= 0 && c < 10 && gametable[r][c] == gametable[(int)row][(int)col]) {
                 count++;
                 if (count == 4) return true;
             } else {
@@ -103,8 +111,8 @@ public class Main {
         count = 0;
         
         for (int i = -3; i <= 3; i++) {
-            int r = row + i, c = col - i;
-            if (r >= 0 && r < 10 && c >= 0 && c < 10 && gametable[r][c] == gametable[row][col]) {
+            int r = (int)row + i, c = (int)col - i;
+            if (r >= 0 && r < 10 && c >= 0 && c < 10 && gametable[r][c] == gametable[(int)row][(int)col]) {
                 count++;
                 if (count == 4) return true;
             } else {
