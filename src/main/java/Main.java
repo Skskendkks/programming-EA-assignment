@@ -5,7 +5,6 @@ public class Main {
     static int turn = 1;//set the user turn 
     static double row;//create the varible that user input the row
     static double col;//create the varible that user input the column
-    static int [] array = {0,1,2,3,4,5,6,7,8,9}; 
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
@@ -29,6 +28,7 @@ public class Main {
                 col = kb.nextDouble();
             }
             
+            //check the user not input float. 
             while (row % 1 != 0 || col % 1 != 0){
                 System.out.println("Can not input float! Input again.");
                 System.out.print("Enter row and column (e.g., 0 1): ");
