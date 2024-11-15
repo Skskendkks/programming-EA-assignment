@@ -7,8 +7,6 @@ Gomoko game is a 2 player game, user can input the value,
 Who can reach 4 identical numbers fastest in straight, 
 horizontal and diagonal directions.*/
 
-
-
 import java.util.Scanner;
 
 public class Gomoko {
@@ -21,6 +19,7 @@ public class Gomoko {
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         printtable();
+        System.out.println("Player " + turn + "'s turn.");
         //repeat the input value and output the game table
         while (true) {
             System.out.print("Enter row and column (e.g., 0 1): ");
@@ -54,10 +53,13 @@ public class Gomoko {
             updatearray(row, col);
             // Check if current player has won.
             if (checkwin(row, col)) {
+                printtable();
                 System.out.println("Player " + gametable[(int)row][(int)col] + " wins!");
                 break;
             }
             printtable();
+            System.out.println("Player " + turn + "'s turn.");
+
         }
         kb.close();
     }
@@ -155,6 +157,5 @@ public class Gomoko {
         //print the bottom side of the table chessboard border and the next round which the user can play. 
         System.out.println("  +--------------------");
         System.out.println("    0 1 2 3 4 5 6 7 8 9 ");
-        System.out.println("Player " + turn + "'s turn.");
     }
 }
