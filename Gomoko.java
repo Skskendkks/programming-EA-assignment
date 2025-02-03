@@ -1,20 +1,10 @@
-//Name of source file: Gomoko.java
-//Name: Yeung Wang Sang 
-//Class: IT114105-1A
-//Student ID: 240021235
-/*description: 
-Gomoko game is a 2 player game, user can input the value, 
-Who can reach 4 identical numbers fastest in straight, 
-horizontal and diagonal directions.*/
-
 import java.util.Scanner;
 
 public class Gomoko {
     static int[][] gametable = new int[10][10];//create the game board data
     static int turn = 1;//set the user turn 
-    static double row;//create the varible that user input the row
-    static double col;//create the varible that user input the column
-    //static int [] array = {0,1,2,3,4,5,6,7,8,9};
+    static double row;//create the variable that user input the row
+    static double col;//create the variable that user input the column
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
@@ -34,7 +24,7 @@ public class Gomoko {
                 col = kb.nextDouble();
             }
             //check the value it is the float
-            while (row % 1 != 0 || col % 1 != 0){
+            while (row % 1 != 0 || col % 1 != 0) {
                 System.out.println("Can not input float! Input again.");
                 System.out.print("Enter row and column (e.g., 0 1): ");
                 row = kb.nextDouble();
@@ -57,6 +47,12 @@ public class Gomoko {
                 System.out.println("Player " + gametable[(int)row][(int)col] + " wins!");
                 break;
             }
+            // Check if the game is a draw.
+            if (checkdraw()) {
+                printtable();
+                System.out.println("The game is a draw!");
+                break;
+            }
             printtable();
             System.out.println("Player " + turn + "'s turn.");
 
@@ -73,52 +69,52 @@ public class Gomoko {
     public static boolean checkwin(double row, double col) {
         return checkrow(row, col) || checkcol(row, col) || checkslash(row, col);
     }
-    //check the row hava the same value.
+    //check the row have the same value.
     public static boolean checkrow(double row, double col) {
-        //set the count if the count == 4 that mean hava the 4 same value.
+        //set the count if the count == 4 that mean have the 4 same value.
         int count = 0;
-        //check the gametable row hava the same value
+        //check the gametable row have the same value
         for (int i = 0; i < 10; i++) {
             //check the col and the i it is the same value. if yes than count++
             if (gametable[(int)row][i] == gametable[(int)row][(int)col]) {
                 count++;
-                //if have the 4 same value than return trun
+                //if have the 4 same value than return true
                 if (count == 4) return true;
             } else {
                 count = 0;//reset the count
             }
-        }//if not return flase
+        }//if not return false
         return false;
     }
 
     public static boolean checkcol(double row, double col) {
-        //set the count if the count == 4 that mean hava the 4 same value.
+        //set the count if the count == 4 that mean have the 4 same value.
         int count = 0;
-        //check the gametable col hava the same value
+        //check the gametable col have the same value
         for (int i = 0; i < 10; i++) {
             //check the row and the i it is the same value. if yes than count++
             if (gametable[i][(int)col] == gametable[(int)row][(int)col]) {
                 count++;
-                //if have the 4 same value than return trun
+                //if have the 4 same value than return true
                 if (count == 4) return true;
             } else {
                 count = 0;//reset the count
             }
-        }//if not return flase
+        }//if not return false
         return false;
     }
 
     public static boolean checkslash(double row, double col) {
-        //set the count if the count == 4 that mean hava the 4 same value.
+        //set the count if the count == 4 that mean have the 4 same value.
         int count = 0;
-        //set the count if the count == 4 that mean hava the 4 same value.
+        //set the count if the count == 4 that mean have the 4 same value.
         for (int i = -3; i <= 3; i++) {
             ////cal the diagonal to the row and col left bottom to right top 
             int r = (int)row + i, c = (int) col + i;
             //check the same value 
             if (r >= 0 && r < 10 && c >= 0 && c < 10 && gametable[r][c] == gametable[(int)row][(int)col]) {
                 count++;
-                //if have the 4 same value than return turn
+                //if have the 4 same value than return true
                 if (count == 4) return true;
             } else {
                 count = 0;
@@ -126,21 +122,33 @@ public class Gomoko {
         }
 
         count = 0;
-        //set the count if the count == 4 that mean hava the 4 same value.
+        //set the count if the count == 4 that mean have the 4 same value.
         for (int i = -3; i <= 3; i++) {
             ////cal the diagonal to the row and col right bottom to left top 
             int r = (int)row + i, c = (int)col - i;
             //check the same value 
             if (r >= 0 && r < 10 && c >= 0 && c < 10 && gametable[r][c] == gametable[(int)row][(int)col]) {
                 count++;
-                //if have the 4 same value than return turn
+                //if have the 4 same value than return true
                 if (count == 4) return true;
             } else {
                 count = 0;
             }
         }
-        //if not return flase
+        //if not return false
         return false;
+    }
+
+    // Check if the game is a draw
+    public static boolean checkdraw() {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (gametable[i][j] == 0) {
+                    return false; // If there's at least one empty cell, it's not a draw
+                }
+            }
+        }
+        return true; // All cells are filled, it's a draw
     }
     
     //print the game table and the player turn.
