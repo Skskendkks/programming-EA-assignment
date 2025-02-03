@@ -2,7 +2,7 @@ This is my ITP3914 programming EA assignment. Welcome to try this program.
 
 That is a 2 player game. The Gomoko game (4-piece chess version)
 
-If you want to try this program online you maybe need to change the name to Main
+If you want to try this program online you may need to change the name to Main
 
 Here is the game table: 
 
