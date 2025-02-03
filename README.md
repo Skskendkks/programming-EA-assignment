@@ -1,6 +1,9 @@
 This is my ITP3914 programming EA assignment. Welcome to try this program. 
 
 That is a 2 player game. The Gomoko game (4-piece chess version)
+
+If you want to try this program online you maybe need to change the name to Main
+
 Here is the game table: 
 
 0 | 0 1 0 0 0 0 0 0 0 0  
@@ -24,6 +27,9 @@ Enjoy this game!
 這是我的 ITP3914 程式設計 EA 作業。歡迎試用該程式。
 
 那是一款雙人遊戲。 Gomoko 遊戲（4 子棋版）
+
+如果您想在線試用該程序，您可能需要將名稱更改為 Main
+
 以下是遊戲表：
 
 0 | 0 1 0 0 0 0 0 0 0 0  
